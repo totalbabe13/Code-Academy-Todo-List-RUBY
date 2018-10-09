@@ -1,72 +1,85 @@
- module Menu
+# - - - MODULES OBJECTS - - - -
 
-      def menu
-        " Welcome to the TodoLister Program!
-        This menu will help you use the Task List System
-        1) Add
-        2) Show
-        Q) Quit "
-      end
+module Menu
+  def menu 
+     " Welcome to the TodoList Program!
+      This menu will help you use the Task List System
+      1) Add
+      2) Show 
+      Q) Quit "
+  end  
 
-      def show
-        menu
-      end
-    end
+  def show 
+    menu 
+  end  
+end
+
+module Promptable
+  def prompt(message ='What would you like to do?', symbol = ':>')
+    print message
+    print symbol
+    gets.chomp 
+  end  
+end
 
 
-    module Promptable
-      def prompt(message = "Just the facts, ma'am.", symbol = ':> ')
-        print message
-        print symbol
-        gets.chomp
-      end
-    end
 
+# - - - CLASS OBJECTS - - - -
+class List
+  attr_reader :all_tasks
 
-    class List
-      attr_reader :all_tasks
+  def initialize
+    @all_tasks = []
+  end
 
-      def initialize
-        @all_tasks = []
-      end
+  def add(task)
+    all_tasks << task
+  end 
 
-      def add(task)
-        all_tasks << task
-      end
+  def show 
+    all_tasks.each {|task| puts task.description}
+  end
 
-      def show
-        puts 'yolo'
-        all_tasks
-      end
-    end
+end
 
-    class Task
-      attr_reader :description
+class Task
+  attr_reader :description
 
-      def initialize(description)
-        @description = description
-      end
+  def initialize(description)
+    @description = description
+  end
+end
 
-    end
+# - - - - RUNNER  - - - -
 
-    if __FILE__ == $PROGRAM_NAME
-      include Menu
-      include Promptable
-      my_List = List.new
-      puts ''
-      puts 'Please choose from the following list'
-      until ['q'].include?(user_input = prompt(show).downcase)
-        case user_input
+if __FILE__ == $PROGRAM_NAME
+  include Menu
+  include Promptable
+
+  my_list = List.new
+
+   puts 'Please choose from the following list:'
+   until ['q'].include?(user_input = prompt(show).downcase)
+      case user_input
         when '1'
-          my_List.add(Task.new(prompt('What is the task you would like to accomplish?')))
-          puts ''
+          my_list.add(Task.new(prompt('What is the task you would 
+          like to accomplish?')))
         when '2'
-          puts my_List.all_tasks
-          puts ''
+          my_list.show
         else
-          puts 'Try again, I did not understand.'
-        end
+          puts 'Sorry, I did not understand'   
       end
-      puts 'Outro - Thanks for using our awesome menuing system!'
+      prompt('Press enter to continue', '')
     end
-        
+    puts 'Outro - Thanks for using the menu system!'
+end 
+
+
+
+
+
+
+
+
+
+
